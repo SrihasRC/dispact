@@ -48,6 +48,7 @@ pnpm --filter worker exec eslint src
 - **TypeScript version is `7.0.2`** — newer than most ecosystem docs. Some `tsc` flag names may differ from TS 4/5 docs. Trust compiler errors over documentation.
 - **ESLint config does not exist yet** — Phase 0 creates it. Until then, do not run `pnpm lint` in CI.
 - **Prisma client is generated** — after schema changes, always run `prisma generate` before `tsc --noEmit`, or type-check will fail with missing generated types.
+- **Prisma `.env` discovery** — when running `pnpm --filter @event-engine/database exec prisma migrate dev`, the `.env` at root is NOT auto-loaded. Pass the var inline: `DATABASE_URL="..." pnpm --filter @event-engine/database exec prisma migrate dev`. The initial migration (`20260906150610_init`) has already been applied — do NOT re-run `migrate dev --name init`.
 
 ---
 
