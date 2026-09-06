@@ -10,8 +10,6 @@
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.69.0",
-    "@typescript-eslint/parser": "^8.69.0",
     "eslint": "^9.0.0",
     "neostandard": "^0.13.0",
     "prettier": "3.9.6",
