@@ -108,4 +108,4 @@ pnpm --filter worker exec eslint src
 | 4 — Error/DLQ | ✅ Done | agent-phase-4 | d906d43 |
 | 5 — Bull Board | ✅ Done | agent-phase-5 | 05e93aa |
 | 6 — Simulator | ✅ Done | agent-phase-6 | 96bac46 |
-| 7 — Tests | ⬜ Pending | — | — |
+| 7 — Tests | ✅ Done | agent-phase-7 | — |
