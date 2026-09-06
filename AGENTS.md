@@ -106,6 +106,6 @@ pnpm --filter worker exec eslint src
 | 2 — API Gateway | ✅ Done | agent-phase-2 | f40a9f2 |
 | 3 — Worker | ✅ Done | agent-phase-3 | 0182b0f |
 | 4 — Error/DLQ | ✅ Done | agent-phase-4 | d906d43 |
-| 5 — Bull Board | ⬜ Pending | — | — |
+| 5 — Bull Board | ✅ Done | agent-phase-5 | — |
 | 6 — Simulator | ✅ Done | agent-phase-6 | 96bac46 |
 | 7 — Tests | ⬜ Pending | — | — |
