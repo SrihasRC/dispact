@@ -6,3 +6,54 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Event {
+  id             String           @id @default(uuid())
+  idempotencyKey String           @unique
+  source         String
+  eventType      String
+  payload        Json
+  status         EventStatus      @default(QUEUED)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  attempts       ExecutionAttempt[]
+  deliveryLogs   DeliveryLog[]
+}
+
+enum EventStatus {
+  QUEUED
+  PROCESSING
+  DELIVERED
+  FAILED
+  DEAD_LETTER
+}
+
+model ExecutionAttempt {
+  id         String    @id @default(uuid())
+  eventId    String
+  event      Event     @relation(fields: [eventId], references: [id])
+  attemptNo  Int
+  status     String
+  error      String?
+  startedAt  DateTime  @default(now())
+  finishedAt DateTime?
+}
+
+model DeliveryLog {
+  id          String   @id @default(uuid())
+  eventId     String
+  event       Event    @relation(fields: [eventId], references: [id])
+  connector   String
+  statusCode  Int?
+  response    Json?
+  deliveredAt DateTime @default(now())
+}
+
+model ConnectorConfig {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  type      String
+  config    Json
+  enabled   Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
