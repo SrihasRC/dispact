@@ -32,6 +32,9 @@ importers:
       '@bull-board/fastify':
         specifier: latest
         version: 9.8.0(bullmq@6.3.4(ioredis@6.0.0(supports-color@7.2.0)))
+      '@event-engine/database':
+        specifier: workspace:*
+        version: link:../../packages/database
       '@fastify/cors':
         specifier: ^11.3.0
         version: 11.3.0
@@ -112,12 +115,21 @@ importers:
 
   apps/worker:
     dependencies:
+      '@event-engine/database':
+        specifier: workspace:*
+        version: link:../../packages/database
       '@prisma/client':
         specifier: ^6.19.3
         version: 6.19.3(prisma@7.10.0(@types/react-dom@19.2.5(@types/react@19.2.18))(@types/react@19.2.18)(magicast@0.5.4)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@7.0.2))(typescript@7.0.2)
+      '@sinclair/typebox':
+        specifier: ^0.34.52
+        version: 0.34.52
       bullmq:
         specifier: ^6.3.4
         version: 6.3.4(ioredis@6.0.0(supports-color@7.2.0))
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
       fastify-plugin:
         specifier: latest
         version: 6.0.0
@@ -4958,8 +4970,7 @@ snapshots:
 
   dotenv@16.6.1: {}
 
-  dotenv@17.4.2:
-    optional: true
+  dotenv@17.4.2: {}
 
   dunder-proto@1.0.1:
     dependencies:

@@ -14,8 +14,11 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@event-engine/database": "workspace:*",
     "@prisma/client": "^6.19.3",
+    "@sinclair/typebox": "^0.34.52",
     "bullmq": "^6.3.4",
+    "dotenv": "^17.4.2",
     "fastify-plugin": "latest",
     "ioredis": "^6.0.0",
     "resend": "latest"

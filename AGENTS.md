@@ -101,9 +101,9 @@ pnpm --filter worker exec eslint src
 | Phase | Status | Assigned Agent | Commit |
 |---|---|---|---|
 | 0 — Scaffolding | ✅ Done | agent-phase-0 | 1d1f533 |
-| 1 — Prisma Schema | ✅ Done | agent-phase-1 | pending |
+| 1 — Prisma Schema | ✅ Done | agent-phase-1 | a74d103 |
 | 2 — API Gateway | ⬜ Pending | — | — |
-| 3 — Worker | ⬜ Pending | — | — |
+| 3 — Worker | ✅ Done | agent-phase-3 | pending |
 | 4 — Error/DLQ | ⬜ Pending | — | — |
 | 5 — Bull Board | ⬜ Pending | — | — |
 | 6 — Simulator | ⬜ Pending | — | — |
