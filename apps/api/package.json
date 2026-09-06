@@ -5,20 +5,29 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "lint": "eslint src"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@bull-board/api": "latest",
+    "@bull-board/fastify": "latest",
     "@fastify/cors": "^11.3.0",
+    "@fastify/env": "latest",
+    "@prisma/client": "^6.19.3",
+    "@sinclair/typebox": "latest",
     "bullmq": "^6.3.4",
     "fastify": "^5.12.3",
+    "fastify-plugin": "latest",
     "ioredis": "^6.0.0",
-    "zod": "^4.5.4"
+    "resend": "latest"
   },
   "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
     "@types/node": "26.4.1",
     "tsx": "^4.23.13",
     "typescript": "7.0.2"
