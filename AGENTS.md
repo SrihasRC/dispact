@@ -107,5 +107,5 @@ pnpm --filter worker exec eslint src
 | 3 — Worker | ✅ Done | agent-phase-3 | 0182b0f |
 | 4 — Error/DLQ | ⬜ Pending | — | — |
 | 5 — Bull Board | ⬜ Pending | — | — |
-| 6 — Simulator | ⬜ Pending | — | — |
+| 6 — Simulator | ✅ Done | agent-phase-6 | — |
 | 7 — Tests | ⬜ Pending | — | — |
