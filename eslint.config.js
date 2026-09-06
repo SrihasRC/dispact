@@ -12,6 +12,8 @@ export default [
       '**/.next/**',
       '**/generated/**',
       'apps/web/**',
+      'packages/eslint-config/**',
+      'packages/ui/**',
     ],
   },
 ]
