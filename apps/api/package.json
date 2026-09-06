@@ -16,6 +16,7 @@
   "dependencies": {
     "@bull-board/api": "latest",
     "@bull-board/fastify": "latest",
+    "@event-engine/database": "workspace:*",
     "@fastify/cors": "^11.3.0",
     "@fastify/env": "latest",
     "@prisma/client": "^6.19.3",

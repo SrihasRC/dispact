@@ -1,22 +1,14 @@
-import Fastify from 'fastify'
-import cors from '@fastify/cors'
-import { Queue } from 'bullmq'
+import { buildApp } from './app.js'
 
-const app = Fastify({ logger: true })
-await app.register(cors)
+const app = await buildApp()
 
-const eventQueue = new Queue('event-intake', {
-  connection: { host: '127.0.0.1', port: 6379 }
-})
+const host = app.config.API_HOST
+const port = Number(app.config.API_PORT)
 
-app.get('/health', async () => ({ status: 'ok' }))
-
-app.post('/api/v1/events', async (request, reply) => {
-  await eventQueue.add('dispatch-event', request.body)
-  return reply.status(202).send({ status: 'queued', at: new Date().toISOString() })
-})
-
-app.listen({ port: 4000, host: '0.0.0.0' }, (err, address) => {
-  if (err) throw err
-  console.log(`API Gateway running on ${address}`)
+app.listen({ host, port }, (err, address) => {
+  if (err != null) {
+    app.log.error(err)
+    process.exit(1)
+  }
+  app.log.info(`API Gateway running on ${address}`)
 })
