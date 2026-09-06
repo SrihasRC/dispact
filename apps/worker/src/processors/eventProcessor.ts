@@ -5,6 +5,7 @@ import { registry } from '../connectors/registry.js'
 import { acquireToken } from '../rate-limiter/tokenBucket.js'
 import { config } from '../config.js'
 import { EventStatus, Prisma } from '@event-engine/database'
+import { ConnectorError, RateLimitError } from '../errors.js'
 
 export async function processEvent (job: Job, redis: Redis): Promise<void> {
   const { idempotencyKey, source, eventType, payload } = job.data as {
@@ -40,7 +41,7 @@ export async function processEvent (job: Job, redis: Redis): Promise<void> {
 
   const connector = registry.get(connectorConfig.type)
   if (connector === undefined) {
-    throw new Error(`Unknown connector type: ${connectorConfig.type}`)
+    throw new ConnectorError(`Unknown connector type: ${connectorConfig.type}`, connectorConfig.type)
   }
 
   const tokenGranted = await acquireToken(
@@ -51,7 +52,7 @@ export async function processEvent (job: Job, redis: Redis): Promise<void> {
   )
 
   if (!tokenGranted) {
-    throw new Error(`Rate limit exceeded for connector: ${connectorConfig.type}`)
+    throw new RateLimitError(connectorConfig.type)
   }
 
   const result = await connector.dispatch(event, connectorConfig.config)
@@ -71,6 +72,6 @@ export async function processEvent (job: Job, redis: Redis): Promise<void> {
   })
 
   if (!result.success) {
-    throw new Error(result.error ?? 'Dispatch failed')
+    throw new ConnectorError(result.error ?? 'Dispatch failed', connectorConfig.type)
   }
 }

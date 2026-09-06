@@ -105,7 +105,7 @@ pnpm --filter worker exec eslint src
 | 1 — Prisma Schema | ✅ Done | agent-phase-1 | a74d103 |
 | 2 — API Gateway | ✅ Done | agent-phase-2 | f40a9f2 |
 | 3 — Worker | ✅ Done | agent-phase-3 | 0182b0f |
-| 4 — Error/DLQ | ⬜ Pending | — | — |
+| 4 — Error/DLQ | ✅ Done | agent-phase-4 | — |
 | 5 — Bull Board | ⬜ Pending | — | — |
-| 6 — Simulator | ✅ Done | agent-phase-6 | — |
+| 6 — Simulator | ✅ Done | agent-phase-6 | 96bac46 |
 | 7 — Tests | ⬜ Pending | — | — |
