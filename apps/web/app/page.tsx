@@ -32,17 +32,10 @@ export default async function DashboardPage() {
           </p>
         </div>
 
-        {/* API Health Pill */}
-        <div className="flex items-center gap-2 rounded-full border border-border/70 bg-card px-3 py-1.5 text-xs shadow-2xs">
-          <span
-            className={`inline-block size-2 rounded-full ${
-              health ? 'bg-primary' : 'bg-muted-foreground/40'
-            }`}
-          />
-          <span className="font-mono text-muted-foreground">
-            {health
-              ? `API Online (${health.uptime.toFixed(1)}s uptime)`
-              : 'API Offline (:4000)'}
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <span className={`inline-block size-1.5 rounded-full ${health ? 'bg-primary' : 'bg-muted-foreground/40'}`} />
+          <span className="font-mono">
+            {health ? `API Online · ${health.uptime.toFixed(1)}s` : 'API Offline'}
           </span>
         </div>
       </div>

@@ -21,9 +21,9 @@ const geistMono = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'Event Engine — Ingestion & Delivery Dashboard',
+  title: 'Dispact — Event Delivery Platform',
   description:
-    'High-throughput asynchronous event ingestion, idempotency locking, and pluggable delivery gateway.',
+    'Asynchronous event ingestion, idempotency locking, and pluggable delivery gateway.',
 }
 
 export default function RootLayout({
@@ -40,7 +40,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1">{children}</main>
           <footer className="border-t border-border/40 py-6 text-center text-xs text-muted-foreground">
-            Event Engine Dashboard
+            Dispact
           </footer>
         </div>
         <Toaster position="bottom-right" />
