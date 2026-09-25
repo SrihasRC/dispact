@@ -1,102 +1,98 @@
-import Image, { type ImageProps } from "next/image";
-import { Button } from "@repo/ui/button";
-import styles from "./page.module.css";
+import { StatCard } from '#components/stat-card'
+import { EventTable } from '#components/event-table'
+import { SendEventForm } from '#components/send-event-form'
+import { SimulatorForm } from '#components/simulator-form'
+import { fetchHealth, fetchRecentEvents } from '#lib/api'
 
-type Props = Omit<ImageProps, "src"> & {
-  srcLight: string;
-  srcDark: string;
-};
+export const dynamic = 'force-dynamic'
 
-const ThemeImage = (props: Props) => {
-  const { srcLight, srcDark, ...rest } = props;
+export default async function DashboardPage() {
+  const [health, events] = await Promise.all([
+    fetchHealth(),
+    fetchRecentEvents(),
+  ])
+
+  const totalEvents = events.length
+  const queuedEvents = events.filter((e) => e.status === 'QUEUED').length
+  const deliveredEvents = events.filter((e) => e.status === 'DELIVERED').length
+  const failedEvents = events.filter(
+    (e) => e.status === 'FAILED' || e.status === 'DEAD_LETTER'
+  ).length
 
   return (
-    <>
-      <Image {...rest} src={srcLight} className="imgLight" />
-      <Image {...rest} src={srcDark} className="imgDark" />
-    </>
-  );
-};
-
-export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <ThemeImage
-          className={styles.logo}
-          srcLight="turborepo-dark.svg"
-          srcDark="turborepo-light.svg"
-          alt="Turborepo logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>apps/web/app/page.tsx</code>
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new/clone?demo-description=Learn+to+implement+a+monorepo+with+a+two+Next.js+sites+that+has+installed+three+local+packages.&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F4K8ZISWAzJ8X1504ca0zmC%2F0b21a1c6246add355e55816278ef54bc%2FBasic.png&demo-title=Monorepo+with+Turborepo&demo-url=https%3A%2F%2Fexamples-basic-web.vercel.sh%2F&from=templates&project-name=Monorepo+with+Turborepo&repository-name=monorepo-turborepo&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fturborepo%2Ftree%2Fmain%2Fexamples%2Fbasic&root-directory=apps%2Fdocs&skippable-integrations=1&teamSlug=vercel&utm_source=create-turbo"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://turborepo.dev/docs?utm_source"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+    <div className="mx-auto max-w-6xl space-y-8 px-4 py-8 sm:px-6">
+      {/* Top Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            System Overview
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Asynchronous event ingestion gateway with distributed Redis idempotency and BullMQ buffering.
+          </p>
         </div>
-        <Button appName="web" className={styles.secondary}>
-          Open alert
-        </Button>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com/templates?search=turborepo&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+
+        {/* API Health Pill */}
+        <div className="flex items-center gap-2 rounded-full border border-border/70 bg-card px-3 py-1.5 text-xs shadow-2xs">
+          <span
+            className={`inline-block size-2 rounded-full ${
+              health ? 'bg-primary' : 'bg-muted-foreground/40'
+            }`}
           />
-          Examples
-        </a>
-        <a
-          href="https://turborepo.dev?utm_source=create-turbo"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to turborepo.dev →
-        </a>
-      </footer>
+          <span className="font-mono text-muted-foreground">
+            {health
+              ? `API Online (${health.uptime.toFixed(1)}s uptime)`
+              : 'API Offline (:4000)'}
+          </span>
+        </div>
+      </div>
+
+      {/* Stats Row */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <StatCard
+          title="Total Events"
+          value={totalEvents}
+          description="Total events ingested across pipelines (defaulted to 0)"
+        />
+        <StatCard
+          title="Queued"
+          value={queuedEvents}
+          description="Buffered in Redis event-intake queue"
+        />
+        <StatCard
+          title="Delivered"
+          value={deliveredEvents}
+          description="Dispatched to outbound connectors"
+        />
+        <StatCard
+          title="Failed"
+          value={failedEvents}
+          description="Moved to Dead-Letter Queue (DLQ)"
+        />
+      </div>
+
+      {/* Event Feed Section */}
+      <div className="space-y-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="space-y-0.5">
+            <h2 className="text-base font-semibold tracking-tight text-foreground">
+              Recent Event Feed
+            </h2>
+            <p className="text-xs text-muted-foreground">
+              Audit log of events ingested by the gateway and queued for delivery.
+            </p>
+          </div>
+
+          {/* Quick Actions */}
+          <div className="flex items-center gap-2">
+            <SendEventForm />
+            <SimulatorForm />
+          </div>
+        </div>
+
+        {/* Event Table or Empty State */}
+        <EventTable events={events} />
+      </div>
     </div>
-  );
+  )
 }
