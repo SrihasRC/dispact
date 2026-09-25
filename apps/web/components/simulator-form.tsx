@@ -2,14 +2,14 @@
 
 import { useState } from 'react'
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '#components/ui/sheet'
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '#components/ui/dialog'
 import { Button } from '#components/ui/button'
 import { Input } from '#components/ui/input'
 import {
@@ -119,8 +119,8 @@ export function SimulatorForm({
   }
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger
         render={
           trigger ? (
             (trigger as React.ReactElement)
@@ -129,17 +129,17 @@ export function SimulatorForm({
           )
         }
       />
-      <SheetContent side="right" className="w-full sm:max-w-md">
-        <form onSubmit={handleSubmit} className="flex h-full flex-col">
-          <SheetHeader>
-            <SheetTitle>Run Load Simulator</SheetTitle>
-            <SheetDescription>
+      <DialogContent className="sm:max-w-lg">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <DialogHeader>
+            <DialogTitle>Run Load Simulator</DialogTitle>
+            <DialogDescription>
               Stress test queue throughput and burst buffering by dispatching a batch
               of synthetic events to the ingestion gateway.
-            </SheetDescription>
-          </SheetHeader>
+            </DialogDescription>
+          </DialogHeader>
 
-          <div className="flex-1 space-y-4 px-4 py-6">
+          <div className="space-y-4">
             <div className="space-y-1.5">
               <label
                 htmlFor="sim-count"
@@ -242,7 +242,7 @@ export function SimulatorForm({
             </div>
           </div>
 
-          <SheetFooter>
+          <DialogFooter>
             <Button
               type="button"
               variant="outline"
@@ -255,9 +255,9 @@ export function SimulatorForm({
               {loading && <Loader2 className="size-4 animate-spin" />}
               {loading ? 'Enqueueing...' : 'Dispatch Simulation'}
             </Button>
-          </SheetFooter>
+          </DialogFooter>
         </form>
-      </SheetContent>
-    </Sheet>
+      </DialogContent>
+    </Dialog>
   )
 }

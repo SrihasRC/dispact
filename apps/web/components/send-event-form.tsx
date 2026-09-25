@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '#components/ui/sheet'
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '#components/ui/dialog'
 import { Button } from '#components/ui/button'
 import { Input } from '#components/ui/input'
 import { Textarea } from '#components/ui/textarea'
@@ -53,7 +53,7 @@ export function SendEventForm({
   const [payloadError, setPayloadError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
 
-  // Auto-generate UUID when sheet opens
+  // Auto-generate UUID when dialog opens
   useEffect(() => {
     if (open && !idempotencyKey) {
       regenerateKey()
@@ -164,8 +164,8 @@ export function SendEventForm({
   }
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger
         render={
           trigger ? (
             (trigger as React.ReactElement)
@@ -174,17 +174,17 @@ export function SendEventForm({
           )
         }
       />
-      <SheetContent side="right" className="w-full sm:max-w-md">
-        <form onSubmit={handleSubmit} className="flex h-full flex-col">
-          <SheetHeader>
-            <SheetTitle>Send Test Event</SheetTitle>
-            <SheetDescription>
+      <DialogContent className="sm:max-w-lg">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <DialogHeader>
+            <DialogTitle>Send Test Event</DialogTitle>
+            <DialogDescription>
               Submit an event to the Fastify ingestion gateway with atomic Redis
               idempotency locking.
-            </SheetDescription>
-          </SheetHeader>
+            </DialogDescription>
+          </DialogHeader>
 
-          <div className="flex-1 space-y-4 px-4 py-6 overflow-y-auto">
+          <div className="space-y-4">
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label
@@ -273,7 +273,7 @@ export function SendEventForm({
                 value={payloadText}
                 onChange={(e) => handlePayloadChange(e.target.value)}
                 onBlur={() => validateJson(payloadText)}
-                rows={8}
+                rows={6}
                 disabled={loading}
                 className="font-mono text-xs leading-normal"
                 placeholder='{ "key": "value" }'
@@ -291,7 +291,7 @@ export function SendEventForm({
             </div>
           </div>
 
-          <SheetFooter>
+          <DialogFooter>
             <Button
               type="button"
               variant="outline"
@@ -304,9 +304,9 @@ export function SendEventForm({
               {loading && <Loader2 className="size-4 animate-spin" />}
               {loading ? 'Ingesting...' : 'Ingest Event'}
             </Button>
-          </SheetFooter>
+          </DialogFooter>
         </form>
-      </SheetContent>
-    </Sheet>
+      </DialogContent>
+    </Dialog>
   )
 }
