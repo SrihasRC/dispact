@@ -238,3 +238,73 @@ export async function fetchRecentEvents(status?: string): Promise<EventItem[]> {
   }
 }
 
+export interface ConnectorConfig {
+  id: string
+  name: string
+  type: string
+  config: Record<string, unknown>
+  enabled: boolean
+  createdAt: string
+}
+
+export interface CreateConnectorRequest {
+  name: string
+  type: string
+  config: Record<string, unknown>
+  enabled: boolean
+}
+
+export async function fetchConnectors(): Promise<ConnectorConfig[]> {
+  try {
+    const res = await fetch(`${API_BASE}/api/v1/connectors`, { cache: 'no-store' })
+    if (!res.ok) return []
+    const data: unknown = await res.json()
+    return Array.isArray(data) ? (data as ConnectorConfig[]) : []
+  } catch {
+    return []
+  }
+}
+
+export async function createConnector(req: CreateConnectorRequest): Promise<{ success: boolean; data?: ConnectorConfig; error?: string }> {
+  try {
+    const res = await fetch(`${API_BASE}/api/v1/connectors`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req),
+    })
+    const body: unknown = await res.json()
+    if (res.status === 201) return { success: true, data: body as ConnectorConfig }
+    const err = body as { message?: string }
+    return { success: false, error: err.message ?? `HTTP ${res.status}` }
+  } catch (e: unknown) {
+    return { success: false, error: e instanceof Error ? e.message : 'Network error' }
+  }
+}
+
+export async function toggleConnector(id: string, enabled: boolean): Promise<{ success: boolean; error?: string }> {
+  try {
+    const res = await fetch(`${API_BASE}/api/v1/connectors/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ enabled }),
+    })
+    if (res.ok) return { success: true }
+    const err = (await res.json()) as { message?: string }
+    return { success: false, error: err.message ?? `HTTP ${res.status}` }
+  } catch (e: unknown) {
+    return { success: false, error: e instanceof Error ? e.message : 'Network error' }
+  }
+}
+
+export async function deleteConnector(id: string): Promise<{ success: boolean; error?: string }> {
+  try {
+    const res = await fetch(`${API_BASE}/api/v1/connectors/${id}`, { method: 'DELETE' })
+    if (res.status === 204) return { success: true }
+    const err = (await res.json()) as { message?: string }
+    return { success: false, error: err.message ?? `HTTP ${res.status}` }
+  } catch (e: unknown) {
+    return { success: false, error: e instanceof Error ? e.message : 'Network error' }
+  }
+}
+
+

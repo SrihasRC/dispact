@@ -13,6 +13,7 @@ export function Navbar() {
           <a href="/workers" className="transition-colors hover:text-foreground">Workers</a>
           <a href="/queue" className="transition-colors hover:text-foreground">Queue</a>
           <a href="/register" className="transition-colors hover:text-foreground">Register</a>
+          <a href="/connectors" className="transition-colors hover:text-foreground">Connectors</a>
         </nav>
         <div className="ml-auto">
           <a
