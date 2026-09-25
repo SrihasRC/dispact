@@ -224,25 +224,15 @@ export async function fetchHealth(): Promise<HealthResponse | null> {
   }
 }
 
-export async function fetchRecentEvents(): Promise<EventItem[]> {
+export async function fetchRecentEvents(status?: string): Promise<EventItem[]> {
   try {
-    const res = await fetch(`${API_BASE}/api/v1/events`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-      cache: 'no-store',
-    })
-
-    if (!res.ok) {
-      return []
-    }
-
+    const url = status
+      ? `${API_BASE}/api/v1/events?status=${encodeURIComponent(status)}`
+      : `${API_BASE}/api/v1/events`
+    const res = await fetch(url, { cache: 'no-store' })
+    if (!res.ok) return []
     const data: unknown = await res.json()
-    if (Array.isArray(data)) {
-      return data as EventItem[]
-    }
-    return []
+    return Array.isArray(data) ? (data as EventItem[]) : []
   } catch {
     return []
   }
