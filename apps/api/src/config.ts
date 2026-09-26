@@ -1,6 +1,7 @@
 import { Type, type Static } from '@sinclair/typebox'
 
 export const ConfigSchema = Type.Object({
+  DATABASE_URL: Type.Optional(Type.String()),
   NODE_ENV: Type.String({ default: 'development' }),
   API_PORT: Type.String({ default: '4000' }),
   API_HOST: Type.String({ default: '0.0.0.0' }),

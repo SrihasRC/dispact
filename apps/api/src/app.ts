@@ -1,3 +1,5 @@
+import path from 'node:path'
+import dotenv from 'dotenv'
 import Fastify, { type FastifyError, type FastifyInstance, type FastifyServerOptions } from 'fastify'
 import cors from '@fastify/cors'
 import envPlugin from '@fastify/env'
@@ -9,6 +11,10 @@ import bullBoardPlugin from './plugins/bull-board.js'
 import routes from './routes/index.js'
 
 export async function buildApp (opts: FastifyServerOptions = {}): Promise<FastifyInstance> {
+  const envPath = path.resolve(import.meta.dirname, '../../../.env')
+  dotenv.config()
+  dotenv.config({ path: envPath })
+
   const app = Fastify({
     logger: opts.logger ?? { level: 'info' },
     ...opts,
@@ -17,7 +23,9 @@ export async function buildApp (opts: FastifyServerOptions = {}): Promise<Fastif
   // Config first — all plugins depend on fastify.config
   await app.register(envPlugin, {
     schema: ConfigSchema,
-    dotenv: true,
+    dotenv: {
+      path: envPath,
+    },
   })
 
   await app.register(cors)
