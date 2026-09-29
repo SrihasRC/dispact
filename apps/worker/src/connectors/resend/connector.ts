@@ -21,9 +21,17 @@ export class ResendConnector implements IConnector {
   async dispatch (event: Event, connectorConfig: unknown): Promise<DispatchResult> {
     const cfg = connectorConfig as { to: string, subject: string, html?: string, text?: string }
 
+    // If the event payload carries an email address (e.g. user.registered), send there.
+    // Otherwise fall back to the static connector config recipient.
+    const payload = event.payload as Record<string, unknown> | null
+    const toAddress =
+      typeof payload?.email === 'string' && payload.email.includes('@')
+        ? payload.email
+        : cfg.to
+
     const { data, error } = await this.client.emails.send({
       from: workerConfig.resendFromEmail,
-      to: cfg.to,
+      to: toAddress,
       subject: cfg.subject,
       html: cfg.html,
       text: cfg.text ?? `Event: ${event.eventType} from ${event.source}`
