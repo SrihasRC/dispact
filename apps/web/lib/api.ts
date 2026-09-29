@@ -9,12 +9,33 @@ export type EventStatus =
   | 'DEAD_LETTER'
 
 export interface EventItem {
+  id?: string
   idempotencyKey: string
   eventType: string
   source: string
   status: EventStatus
   createdAt: string
   payload?: Record<string, unknown>
+}
+
+export interface DeliveryLogEntry {
+  id: string
+  connector: string
+  statusCode: number | null
+  response: unknown
+  createdAt: string
+}
+
+export interface EventDetail {
+  id: string
+  idempotencyKey: string
+  source: string
+  eventType: string
+  status: EventStatus
+  payload: unknown
+  createdAt: string
+  updatedAt: string
+  deliveryLogs: DeliveryLogEntry[]
 }
 
 export interface SendEventRequest {
@@ -307,4 +328,13 @@ export async function deleteConnector(id: string): Promise<{ success: boolean; e
   }
 }
 
-
+export async function fetchEventDetail(id: string): Promise<EventDetail | null> {
+  try {
+    const res = await fetch(`${API_BASE}/api/v1/events/${id}`, { cache: 'no-store' })
+    if (!res.ok) return null
+    const data: unknown = await res.json()
+    return data as EventDetail
+  } catch {
+    return null
+  }
+}

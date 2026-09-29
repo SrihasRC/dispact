@@ -9,6 +9,7 @@ import {
 import { ingestEventHandler } from './handler.js'
 import { idempotencyHook } from '../../hooks/idempotency.js'
 import listRoutes from './list.js'
+import detailRoutes from './detail.js'
 
 const eventRoutes: FastifyPluginAsync = async (fastify) => {
   fastify.post('/events', {
@@ -26,6 +27,7 @@ const eventRoutes: FastifyPluginAsync = async (fastify) => {
   }, ingestEventHandler)
 
   await fastify.register(listRoutes)
+  await fastify.register(detailRoutes)
 }
 
 export default eventRoutes
