@@ -3,7 +3,7 @@ import { Separator } from '#components/ui/separator'
 
 export default function WorkersPage() {
   return (
-    <div className="mx-auto max-w-4xl space-y-8 px-4 py-8 sm:px-6">
+    <div className="mx-auto max-w-5xl space-y-6">
       <div className="space-y-1">
         <h1 className="text-2xl font-bold tracking-tight">Workers</h1>
         <p className="text-sm text-muted-foreground">BullMQ worker architecture and connector pipeline.</p>

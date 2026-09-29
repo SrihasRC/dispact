@@ -35,10 +35,10 @@ export default function QueuePage() {
   const filtered = filter === 'ALL' ? events : events.filter((e) => e.status === filter)
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6 px-4 py-8 sm:px-6">
+    <div className="mx-auto max-w-6xl space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-0.5">
-          <h1 className="text-2xl font-bold tracking-tight">Queue</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Queue Stream</h1>
           <p className="text-xs text-muted-foreground">Live event pipeline. Auto-refreshes every 8s.</p>
         </div>
         <Button variant="outline" size="sm" onClick={() => { void load() }} disabled={loading}>

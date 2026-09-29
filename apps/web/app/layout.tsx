@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
 import { Geist } from 'next/font/google'
-import { Navbar } from '#components/navbar'
+import { DashboardLayout } from '#components/dashboard-layout'
 import { Toaster } from '#components/ui/sonner'
 
 const geist = Geist({
@@ -36,13 +36,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background font-sans text-foreground antialiased`}
       >
-        <div className="flex min-h-screen flex-col">
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <footer className="border-t border-border/40 py-6 text-center text-xs text-muted-foreground">
-            Dispact
-          </footer>
-        </div>
+        <DashboardLayout>{children}</DashboardLayout>
         <Toaster position="bottom-right" />
       </body>
     </html>

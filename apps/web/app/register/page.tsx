@@ -51,7 +51,7 @@ export default function RegisterPage() {
 
   if (step === 'queued') {
     return (
-      <div className="mx-auto max-w-lg px-4 py-16">
+      <div className="mx-auto max-w-lg py-6 space-y-6">
         <Card>
           <CardHeader>
             <CardTitle>Registration Queued</CardTitle>
@@ -77,8 +77,8 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-16">
-      <div className="mb-8 space-y-1">
+    <div className="mx-auto max-w-lg py-6 space-y-6">
+      <div className="space-y-1">
         <h1 className="text-2xl font-bold tracking-tight text-foreground">Register</h1>
         <p className="text-sm text-muted-foreground">
           Submit a user registration event. Dispact queues it via BullMQ and dispatches a welcome email using Resend.

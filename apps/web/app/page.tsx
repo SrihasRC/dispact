@@ -31,15 +31,11 @@ export default function DashboardPage() {
   const failedEvents = events.filter((e) => e.status === 'FAILED' || e.status === 'DEAD_LETTER').length
 
   return (
-    <div className="mx-auto max-w-6xl space-y-8 px-4 py-8 sm:px-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="space-y-1">
-          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Dashboard</h1>
-          <p className="text-sm text-muted-foreground">Live event pipeline overview. Auto-refreshes every 10s.</p>
-        </div>
-        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          <span className={`inline-block size-1.5 rounded-full ${health ? 'bg-primary' : 'bg-muted-foreground/40'}`} />
-          <span className="font-mono">{health ? `API Online · ${health.uptime.toFixed(1)}s` : 'API Offline'}</span>
+    <div className="mx-auto max-w-6xl space-y-6">
+      <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+        <div className="space-y-0.5">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">System Overview</h1>
+          <p className="text-sm text-muted-foreground">Live event pipeline metrics and throughput. Auto-refreshes every 10s.</p>
         </div>
       </div>
 
